@@ -18,8 +18,8 @@
     const { sketch, settings } = source
     const config = {
       canvas,
-      animate: false,
-      playing: false,
+      animate: true,
+      playing: true,
       // styleCanvas: false,
       ...settings,
     }
