@@ -1,0 +1,14 @@
+<svg width="144" height="144" viewBox="0 0 144 144" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask-dblsta" mask-type="alpha" maskUnits="userSpaceOnUse" x="18" y="69" width="108" height="57">
+<rect x="126" y="126" width="108" height="56.9231" transform="rotate(-180 126 126)" fill="#C4C4C4"/>
+</mask>
+<g mask="url(#mask-dblsta)">
+<ellipse cx="72" cy="126" rx="54" ry="55.0256" transform="rotate(-180 72 126)" fill="#5B27F0"/>
+</g>
+<mask id="mask-dblsta1" mask-type="alpha" maskUnits="userSpaceOnUse" x="18" y="15" width="108" height="57">
+<rect x="126" y="71.9231" width="108" height="56.9231" transform="rotate(-180 126 71.9231)" fill="#C4C4C4"/>
+</mask>
+<g mask="url(#mask-dblsta1)">
+<ellipse cx="72" cy="71.9231" rx="54" ry="55.0256" transform="rotate(-180 72 71.9231)" fill="#5B27F0"/>
+</g>
+</svg>
