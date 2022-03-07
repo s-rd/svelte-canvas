@@ -18,7 +18,8 @@ const sketch = (params, args) => {
     for (let j = 0; j < rows; j++) {
       const x = gap + (width / cols) * i
       const y = gap + (height / rows) * j
-      pictos.push(new Picto(x, y, wh, wh))
+      const index = (rows * i) + j
+      pictos.push(new Picto(x, y, wh, wh, index))
     }
   }
 
@@ -28,7 +29,20 @@ const sketch = (params, args) => {
     context.fillStyle = 'white'
     context.fillRect(0, 0, width, height)
 
-    pictos.forEach(p => p.render(context, frame))
+    pictos.filter(p => !p.destroyed).forEach((p, i) => {
+      p.render(context, frame)
+    })
+
+    pictos.filter(p => p.destroyed).forEach((p, i) => {
+      if (!p.hasDestroyed) {
+        p.handleDestroyed()
+
+        setTimeout(() => {
+          pictos.push(new Picto(p.initial.x, p.initial.y, wh, wh, p.i))
+          pictos.splice(p.i, 1)
+        }, 500)
+      }
+    })
   }
 }
 

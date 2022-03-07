@@ -33,10 +33,8 @@
       expanded: true,
     })
 
-    pane.addInput(
-      PARAMS, 'rows',
-      { min: 1, max: 24, step: 1 },
-    )
+    pane.addInput(PARAMS, 'rows', { min: 1, max: 24, step: 1 })
+    pane.addInput(PARAMS, 'cols', { min: 1, max: 24, step: 1 })
   }
 
   onMount(() => {
