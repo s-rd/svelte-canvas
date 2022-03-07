@@ -29,17 +29,19 @@ const sketch = (params, args) => {
     context.fillStyle = 'white'
     context.fillRect(0, 0, width, height)
 
-    pictos.filter(p => !p.destroyed).forEach((p, i) => {
+    pictos.filter(p => p && !p.destroyed).forEach((p, i) => {
       p.render(context, frame)
     })
 
-    pictos.filter(p => p.destroyed).forEach((p, i) => {
+    pictos.filter(p => p && p.destroyed).forEach((p, i) => {
       if (!p.hasDestroyed) {
         p.handleDestroyed()
 
+        // pictos.splice(i, 1)
+        pictos[i] = null
+
         setTimeout(() => {
           pictos.push(new Picto(p.initial.x, p.initial.y, wh, wh, p.i))
-          pictos.splice(p.i, 1)
         }, 500)
       }
     })

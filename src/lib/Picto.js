@@ -54,7 +54,7 @@ export default class Picto {
     }
 
     this.direction = pick(directions)
-    this.lifespan = lifespan || range(2000, 40000)
+    this.lifespan = lifespan || range(10000, 90000)
     this.moved = 0
 
     // State
@@ -64,7 +64,8 @@ export default class Picto {
 
     this.shape = pictos[Math.floor(Math.random() * pictos.length)]
     this.image = undefined
-    this.loadImage()
+
+    setTimeout(() => this.loadImage(), 100)
 
     autoBind(this)
   }
@@ -85,7 +86,7 @@ export default class Picto {
     if (this.image) {
       cx.drawImage(this.image, this.x, this.y, this.w, this.h)
     } else {
-      cx.fillStyle = 'blue';
+      cx.fillStyle = '#5a27f0';
       cx.fillRect(this.x, this.y, this.w, this.h)
     }
 
