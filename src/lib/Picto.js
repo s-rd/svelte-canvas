@@ -40,9 +40,8 @@ const directions = [
 ]
 
 export default class Picto {
-  constructor(x, y, w, h, i, lifespan) {
+  constructor(x, y, w, h, i) {
     this.ctx = undefined
-
     this.x = x
     this.y = y
     this.w = w
@@ -53,25 +52,35 @@ export default class Picto {
       x, y,
     }
 
-    this.direction = pick(directions)
-    this.lifespan = lifespan || range(10000, 90000)
-    this.moved = 0
+    autoBind(this)
 
-    // State
-    this.destroying = false
-    this.destroyed = false
+    this.init()
+  }
+
+  init() {
+    this.x = this.initial.x
+    this.y = this.initial.y
+
+    this.isInitiated = false
+    this.isDestroying = false
+    this.isDestroyed = false
     this.hasDestroyed = false
+
+    this.direction = pick(directions)
+    this.lifespan = range(1000, 900000)
+    this.moved = 0
 
     this.shape = pictos[Math.floor(Math.random() * pictos.length)]
     this.image = undefined
 
     setTimeout(() => this.loadImage(), 100)
 
-    autoBind(this)
+    this.isInitiated = true
   }
 
   render(ctx, frame) {
     if (!this.ctx) this.ctx = ctx
+    if (this.isDestroyed || !this.isInitiated) return
 
     const cx = this.ctx
 
@@ -86,7 +95,7 @@ export default class Picto {
     if (this.image) {
       cx.drawImage(this.image, this.x, this.y, this.w, this.h)
     } else {
-      cx.fillStyle = '#5a27f0';
+      // cx.fillStyle = '#5a27f0';
       cx.fillRect(this.x, this.y, this.w, this.h)
     }
 
@@ -94,16 +103,18 @@ export default class Picto {
     this.lifespan -= frame
 
     // Start destroying if lifespan is ending
-    if (this.lifespan < 0 && !this.destroyed) {
-      this.destroy()
+    if (this.lifespan < 0 && !this.isDestroyed) {
+      this.outro()
     }
 
     cx.restore()
   }
 
-  destroy() {
-    if (!this.destroyed && this.moved > Math.max(this.w, this.h) + 8) {
-      this.destroyed = true
+  outro() {
+    if (!this.isDestroyed && this.moved > Math.max(this.w, this.h) + 8) {
+      this.lifespan = 999999
+      this.isDestroyed = true
+      this.onOutroEnded()
       return
     }
 
@@ -123,15 +134,14 @@ export default class Picto {
         this.x -= speed
     }
 
-    this.destroying = true
+    this.isDestroying = true
     this.moved += speed
   }
 
-  handleDestroyed() {
+  onOutroEnded() {
     if (this.hasDestroyed) return
     this.hasDestroyed = true
-    // console.log('destroyed', this.i, this.x, this.y)
-    console.log('destroyed', this.i)
+    this.init()
   }
 
   loadImage() {
@@ -140,15 +150,5 @@ export default class Picto {
       this.image = img
     }
     img.src = `/pictos/${this.shape}.svg`
-  }
-
-  get isDestroying() {
-    return this.destroying
-  }
-  get isDestroyed() {
-    return this.destroyed
-  }
-  get pos() {
-    return this.initial
   }
 }

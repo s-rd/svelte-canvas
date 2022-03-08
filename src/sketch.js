@@ -7,7 +7,7 @@ const settings = {
 const sketch = (params, args) => {
   const { width, height } = args
 
-  let pictos = []
+  let pictos = new Set()
 
   const cols = 6
   const rows = 6
@@ -19,7 +19,7 @@ const sketch = (params, args) => {
       const x = gap + (width / cols) * i
       const y = gap + (height / rows) * j
       const index = (rows * i) + j
-      pictos.push(new Picto(x, y, wh, wh, index))
+      pictos.add(new Picto(x, y, wh, wh, index))
     }
   }
 
@@ -29,22 +29,24 @@ const sketch = (params, args) => {
     context.fillStyle = 'white'
     context.fillRect(0, 0, width, height)
 
-    pictos.filter(p => p && !p.destroyed).forEach((p, i) => {
+    pictos.forEach((p, i) => {
       p.render(context, frame)
     })
 
-    pictos.filter(p => p && p.destroyed).forEach((p, i) => {
-      if (!p.hasDestroyed) {
-        p.handleDestroyed()
+    // pictos.filter(p => p && p.destroyed).forEach((p, i) => {
+    //   if (!p.hasDestroyed) {
+    //     p.handleDestroyed()
 
-        // pictos.splice(i, 1)
-        pictos[i] = null
+    //     // pictos.splice(i, 1)
+    //     pictos[i] = null
 
-        setTimeout(() => {
-          pictos.push(new Picto(p.initial.x, p.initial.y, wh, wh, p.i))
-        }, 500)
-      }
-    })
+    //     setTimeout(() => {
+    //       pictos.push(new Picto(p.initial.x, p.initial.y, wh, wh, p.i))
+    //     }, 500)
+
+    //     // console.log(pictos)
+    //   }
+    // })
   }
 }
 
