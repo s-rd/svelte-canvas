@@ -9,13 +9,13 @@ const sketch = (params, args) => {
 
   let pictos = new Set()
 
-  const cols = 6
-  const rows = 6
+  const cols = 12
+  const rows = 12
   const gap = 4
-  const wh = width / cols - (gap * 2)
+  const wh = width / cols
 
   for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < rows; j++) {
+    for (let j = 0; j < cols; j++) {
       const x = gap + (width / cols) * i
       const y = gap + (height / rows) * j
       const index = (rows * i) + j
@@ -24,13 +24,13 @@ const sketch = (params, args) => {
   }
 
   return props => {
-    const { context, frame } = props
+    const { context } = props
 
     context.fillStyle = 'white'
     context.fillRect(0, 0, width, height)
 
     pictos.forEach((p, i) => {
-      p.render(context, frame)
+      p.render(context)
     })
 
     // pictos.filter(p => p && p.destroyed).forEach((p, i) => {
